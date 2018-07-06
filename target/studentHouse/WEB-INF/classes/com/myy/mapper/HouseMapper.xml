@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myy.mapper.HouseMapper">
+  <resultMap id="BaseResultMap" type="com.myy.pojo.House">
+    <id column="houseId" jdbcType="VARCHAR" property="houseid" />
+    <result column="houseUsername" jdbcType="VARCHAR" property="houseusername" />
+    <result column="houseAdd" jdbcType="VARCHAR" property="houseadd" />
+    <result column="houseInfo" jdbcType="VARCHAR" property="houseinfo" />
+    <result column="housePrice" jdbcType="DOUBLE" property="houseprice" />
+    <result column="houseType" jdbcType="VARCHAR" property="housetype" />
+    <result column="houseHostname" jdbcType="VARCHAR" property="househostname" />
+    <result column="houseHold" jdbcType="VARCHAR" property="household" />
+    <result column="houseHostId" jdbcType="VARCHAR" property="househostid" />
+    <result column="houseStatement" jdbcType="INTEGER" property="housestatement" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    houseId, houseUsername, houseAdd, houseInfo, housePrice, houseType, houseHostname, 
+    houseHold, houseHostId, houseStatement
+  </sql>
+  <select id="selectByExample" parameterType="com.myy.pojo.HouseExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from house
+    where houseId = #{houseid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from house
+    where houseId = #{houseid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myy.pojo.HouseExample">
+    delete from house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myy.pojo.House">
+    insert into house (houseId, houseUsername, houseAdd, 
+      houseInfo, housePrice, houseType, 
+      houseHostname, houseHold, houseHostId, 
+      houseStatement)
+    values (#{houseid,jdbcType=VARCHAR}, #{houseusername,jdbcType=VARCHAR}, #{houseadd,jdbcType=VARCHAR}, 
+      #{houseinfo,jdbcType=VARCHAR}, #{houseprice,jdbcType=DOUBLE}, #{housetype,jdbcType=VARCHAR}, 
+      #{househostname,jdbcType=VARCHAR}, #{household,jdbcType=VARCHAR}, #{househostid,jdbcType=VARCHAR}, 
+      #{housestatement,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myy.pojo.House">
+    insert into house
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="houseid != null">
+        houseId,
+      </if>
+      <if test="houseusername != null">
+        houseUsername,
+      </if>
+      <if test="houseadd != null">
+        houseAdd,
+      </if>
+      <if test="houseinfo != null">
+        houseInfo,
+      </if>
+      <if test="houseprice != null">
+        housePrice,
+      </if>
+      <if test="housetype != null">
+        houseType,
+      </if>
+      <if test="househostname != null">
+        houseHostname,
+      </if>
+      <if test="household != null">
+        houseHold,
+      </if>
+      <if test="househostid != null">
+        houseHostId,
+      </if>
+      <if test="housestatement != null">
+        houseStatement,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="houseid != null">
+        #{houseid,jdbcType=VARCHAR},
+      </if>
+      <if test="houseusername != null">
+        #{houseusername,jdbcType=VARCHAR},
+      </if>
+      <if test="houseadd != null">
+        #{houseadd,jdbcType=VARCHAR},
+      </if>
+      <if test="houseinfo != null">
+        #{houseinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="houseprice != null">
+        #{houseprice,jdbcType=DOUBLE},
+      </if>
+      <if test="housetype != null">
+        #{housetype,jdbcType=VARCHAR},
+      </if>
+      <if test="househostname != null">
+        #{househostname,jdbcType=VARCHAR},
+      </if>
+      <if test="household != null">
+        #{household,jdbcType=VARCHAR},
+      </if>
+      <if test="househostid != null">
+        #{househostid,jdbcType=VARCHAR},
+      </if>
+      <if test="housestatement != null">
+        #{housestatement,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myy.pojo.HouseExample" resultType="java.lang.Long">
+    select count(*) from house
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update house
+    <set>
+      <if test="record.houseid != null">
+        houseId = #{record.houseid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseusername != null">
+        houseUsername = #{record.houseusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseadd != null">
+        houseAdd = #{record.houseadd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseinfo != null">
+        houseInfo = #{record.houseinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseprice != null">
+        housePrice = #{record.houseprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.housetype != null">
+        houseType = #{record.housetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.househostname != null">
+        houseHostname = #{record.househostname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.household != null">
+        houseHold = #{record.household,jdbcType=VARCHAR},
+      </if>
+      <if test="record.househostid != null">
+        houseHostId = #{record.househostid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.housestatement != null">
+        houseStatement = #{record.housestatement,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update house
+    set houseId = #{record.houseid,jdbcType=VARCHAR},
+      houseUsername = #{record.houseusername,jdbcType=VARCHAR},
+      houseAdd = #{record.houseadd,jdbcType=VARCHAR},
+      houseInfo = #{record.houseinfo,jdbcType=VARCHAR},
+      housePrice = #{record.houseprice,jdbcType=DOUBLE},
+      houseType = #{record.housetype,jdbcType=VARCHAR},
+      houseHostname = #{record.househostname,jdbcType=VARCHAR},
+      houseHold = #{record.household,jdbcType=VARCHAR},
+      houseHostId = #{record.househostid,jdbcType=VARCHAR},
+      houseStatement = #{record.housestatement,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myy.pojo.House">
+    update house
+    <set>
+      <if test="houseusername != null">
+        houseUsername = #{houseusername,jdbcType=VARCHAR},
+      </if>
+      <if test="houseadd != null">
+        houseAdd = #{houseadd,jdbcType=VARCHAR},
+      </if>
+      <if test="houseinfo != null">
+        houseInfo = #{houseinfo,jdbcType=VARCHAR},
+      </if>
+      <if test="houseprice != null">
+        housePrice = #{houseprice,jdbcType=DOUBLE},
+      </if>
+      <if test="housetype != null">
+        houseType = #{housetype,jdbcType=VARCHAR},
+      </if>
+      <if test="househostname != null">
+        houseHostname = #{househostname,jdbcType=VARCHAR},
+      </if>
+      <if test="household != null">
+        houseHold = #{household,jdbcType=VARCHAR},
+      </if>
+      <if test="househostid != null">
+        houseHostId = #{househostid,jdbcType=VARCHAR},
+      </if>
+      <if test="housestatement != null">
+        houseStatement = #{housestatement,jdbcType=INTEGER},
+      </if>
+    </set>
+    where houseId = #{houseid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myy.pojo.House">
+    update house
+    set houseUsername = #{houseusername,jdbcType=VARCHAR},
+      houseAdd = #{houseadd,jdbcType=VARCHAR},
+      houseInfo = #{houseinfo,jdbcType=VARCHAR},
+      housePrice = #{houseprice,jdbcType=DOUBLE},
+      houseType = #{housetype,jdbcType=VARCHAR},
+      houseHostname = #{househostname,jdbcType=VARCHAR},
+      houseHold = #{household,jdbcType=VARCHAR},
+      houseHostId = #{househostid,jdbcType=VARCHAR},
+      houseStatement = #{housestatement,jdbcType=INTEGER}
+    where houseId = #{houseid,jdbcType=VARCHAR}
+  </update>
+</mapper>

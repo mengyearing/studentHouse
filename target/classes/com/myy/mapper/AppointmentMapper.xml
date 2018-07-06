@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myy.mapper.AppointmentMapper">
+  <resultMap id="BaseResultMap" type="com.myy.pojo.Appointment">
+    <id column="AppId" jdbcType="VARCHAR" property="appid" />
+    <result column="StudentId" jdbcType="VARCHAR" property="studentid" />
+    <result column="MasterId" jdbcType="VARCHAR" property="masterid" />
+    <result column="HouseId" jdbcType="VARCHAR" property="houseid" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    AppId, StudentId, MasterId, HouseId
+  </sql>
+  <select id="selectByExample" parameterType="com.myy.pojo.AppointmentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from appointment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from appointment
+    where AppId = #{appid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from appointment
+    where AppId = #{appid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myy.pojo.AppointmentExample">
+    delete from appointment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myy.pojo.Appointment">
+    insert into appointment (AppId, StudentId, MasterId, 
+      HouseId)
+    values (#{appid,jdbcType=VARCHAR}, #{studentid,jdbcType=VARCHAR}, #{masterid,jdbcType=VARCHAR}, 
+      #{houseid,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.myy.pojo.Appointment">
+    insert into appointment
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="appid != null">
+        AppId,
+      </if>
+      <if test="studentid != null">
+        StudentId,
+      </if>
+      <if test="masterid != null">
+        MasterId,
+      </if>
+      <if test="houseid != null">
+        HouseId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="appid != null">
+        #{appid,jdbcType=VARCHAR},
+      </if>
+      <if test="studentid != null">
+        #{studentid,jdbcType=VARCHAR},
+      </if>
+      <if test="masterid != null">
+        #{masterid,jdbcType=VARCHAR},
+      </if>
+      <if test="houseid != null">
+        #{houseid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myy.pojo.AppointmentExample" resultType="java.lang.Long">
+    select count(*) from appointment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update appointment
+    <set>
+      <if test="record.appid != null">
+        AppId = #{record.appid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.studentid != null">
+        StudentId = #{record.studentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.masterid != null">
+        MasterId = #{record.masterid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.houseid != null">
+        HouseId = #{record.houseid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update appointment
+    set AppId = #{record.appid,jdbcType=VARCHAR},
+      StudentId = #{record.studentid,jdbcType=VARCHAR},
+      MasterId = #{record.masterid,jdbcType=VARCHAR},
+      HouseId = #{record.houseid,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myy.pojo.Appointment">
+    update appointment
+    <set>
+      <if test="studentid != null">
+        StudentId = #{studentid,jdbcType=VARCHAR},
+      </if>
+      <if test="masterid != null">
+        MasterId = #{masterid,jdbcType=VARCHAR},
+      </if>
+      <if test="houseid != null">
+        HouseId = #{houseid,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where AppId = #{appid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myy.pojo.Appointment">
+    update appointment
+    set StudentId = #{studentid,jdbcType=VARCHAR},
+      MasterId = #{masterid,jdbcType=VARCHAR},
+      HouseId = #{houseid,jdbcType=VARCHAR}
+    where AppId = #{appid,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,331 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.myy.mapper.MeetingMapper">
+  <resultMap id="BaseResultMap" type="com.myy.pojo.Meeting">
+    <id column="meetId" jdbcType="VARCHAR" property="meetid" />
+    <result column="meetStuentId" jdbcType="VARCHAR" property="meetstuentid" />
+    <result column="meetMasterId" jdbcType="VARCHAR" property="meetmasterid" />
+    <result column="meetHouseId" jdbcType="VARCHAR" property="meethouseid" />
+    <result column="meetTime" jdbcType="VARCHAR" property="meettime" />
+    <result column="meetHouseAdd" jdbcType="VARCHAR" property="meethouseadd" />
+    <result column="meetHouseHold" jdbcType="VARCHAR" property="meethousehold" />
+    <result column="meetHouseType" jdbcType="VARCHAR" property="meethousetype" />
+    <result column="meetHouseMasterName" jdbcType="VARCHAR" property="meethousemastername" />
+    <result column="meetStudentName" jdbcType="VARCHAR" property="meetstudentname" />
+    <result column="meetHousePrice" jdbcType="DOUBLE" property="meethouseprice" />
+    <result column="meetHouseInfo" jdbcType="VARCHAR" property="meethouseinfo" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    meetId, meetStuentId, meetMasterId, meetHouseId, meetTime, meetHouseAdd, meetHouseHold, 
+    meetHouseType, meetHouseMasterName, meetStudentName, meetHousePrice, meetHouseInfo
+  </sql>
+  <select id="selectByExample" parameterType="com.myy.pojo.MeetingExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    <if test="limit != null">
+      <if test="offset != null">
+        limit ${offset}, ${limit}
+      </if>
+      <if test="offset == null">
+        limit ${limit}
+      </if>
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from meeting
+    where meetId = #{meetid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from meeting
+    where meetId = #{meetid,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.myy.pojo.MeetingExample">
+    delete from meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.myy.pojo.Meeting">
+    insert into meeting (meetId, meetStuentId, meetMasterId, 
+      meetHouseId, meetTime, meetHouseAdd, 
+      meetHouseHold, meetHouseType, meetHouseMasterName, 
+      meetStudentName, meetHousePrice, meetHouseInfo
+      )
+    values (#{meetid,jdbcType=VARCHAR}, #{meetstuentid,jdbcType=VARCHAR}, #{meetmasterid,jdbcType=VARCHAR}, 
+      #{meethouseid,jdbcType=VARCHAR}, #{meettime,jdbcType=VARCHAR}, #{meethouseadd,jdbcType=VARCHAR}, 
+      #{meethousehold,jdbcType=VARCHAR}, #{meethousetype,jdbcType=VARCHAR}, #{meethousemastername,jdbcType=VARCHAR}, 
+      #{meetstudentname,jdbcType=VARCHAR}, #{meethouseprice,jdbcType=DOUBLE}, #{meethouseinfo,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.myy.pojo.Meeting">
+    insert into meeting
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="meetid != null">
+        meetId,
+      </if>
+      <if test="meetstuentid != null">
+        meetStuentId,
+      </if>
+      <if test="meetmasterid != null">
+        meetMasterId,
+      </if>
+      <if test="meethouseid != null">
+        meetHouseId,
+      </if>
+      <if test="meettime != null">
+        meetTime,
+      </if>
+      <if test="meethouseadd != null">
+        meetHouseAdd,
+      </if>
+      <if test="meethousehold != null">
+        meetHouseHold,
+      </if>
+      <if test="meethousetype != null">
+        meetHouseType,
+      </if>
+      <if test="meethousemastername != null">
+        meetHouseMasterName,
+      </if>
+      <if test="meetstudentname != null">
+        meetStudentName,
+      </if>
+      <if test="meethouseprice != null">
+        meetHousePrice,
+      </if>
+      <if test="meethouseinfo != null">
+        meetHouseInfo,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="meetid != null">
+        #{meetid,jdbcType=VARCHAR},
+      </if>
+      <if test="meetstuentid != null">
+        #{meetstuentid,jdbcType=VARCHAR},
+      </if>
+      <if test="meetmasterid != null">
+        #{meetmasterid,jdbcType=VARCHAR},
+      </if>
+      <if test="meethouseid != null">
+        #{meethouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="meettime != null">
+        #{meettime,jdbcType=VARCHAR},
+      </if>
+      <if test="meethouseadd != null">
+        #{meethouseadd,jdbcType=VARCHAR},
+      </if>
+      <if test="meethousehold != null">
+        #{meethousehold,jdbcType=VARCHAR},
+      </if>
+      <if test="meethousetype != null">
+        #{meethousetype,jdbcType=VARCHAR},
+      </if>
+      <if test="meethousemastername != null">
+        #{meethousemastername,jdbcType=VARCHAR},
+      </if>
+      <if test="meetstudentname != null">
+        #{meetstudentname,jdbcType=VARCHAR},
+      </if>
+      <if test="meethouseprice != null">
+        #{meethouseprice,jdbcType=DOUBLE},
+      </if>
+      <if test="meethouseinfo != null">
+        #{meethouseinfo,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.myy.pojo.MeetingExample" resultType="java.lang.Long">
+    select count(*) from meeting
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update meeting
+    <set>
+      <if test="record.meetid != null">
+        meetId = #{record.meetid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetstuentid != null">
+        meetStuentId = #{record.meetstuentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetmasterid != null">
+        meetMasterId = #{record.meetmasterid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meethouseid != null">
+        meetHouseId = #{record.meethouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meettime != null">
+        meetTime = #{record.meettime,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meethouseadd != null">
+        meetHouseAdd = #{record.meethouseadd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meethousehold != null">
+        meetHouseHold = #{record.meethousehold,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meethousetype != null">
+        meetHouseType = #{record.meethousetype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meethousemastername != null">
+        meetHouseMasterName = #{record.meethousemastername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meetstudentname != null">
+        meetStudentName = #{record.meetstudentname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.meethouseprice != null">
+        meetHousePrice = #{record.meethouseprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.meethouseinfo != null">
+        meetHouseInfo = #{record.meethouseinfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update meeting
+    set meetId = #{record.meetid,jdbcType=VARCHAR},
+      meetStuentId = #{record.meetstuentid,jdbcType=VARCHAR},
+      meetMasterId = #{record.meetmasterid,jdbcType=VARCHAR},
+      meetHouseId = #{record.meethouseid,jdbcType=VARCHAR},
+      meetTime = #{record.meettime,jdbcType=VARCHAR},
+      meetHouseAdd = #{record.meethouseadd,jdbcType=VARCHAR},
+      meetHouseHold = #{record.meethousehold,jdbcType=VARCHAR},
+      meetHouseType = #{record.meethousetype,jdbcType=VARCHAR},
+      meetHouseMasterName = #{record.meethousemastername,jdbcType=VARCHAR},
+      meetStudentName = #{record.meetstudentname,jdbcType=VARCHAR},
+      meetHousePrice = #{record.meethouseprice,jdbcType=DOUBLE},
+      meetHouseInfo = #{record.meethouseinfo,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.myy.pojo.Meeting">
+    update meeting
+    <set>
+      <if test="meetstuentid != null">
+        meetStuentId = #{meetstuentid,jdbcType=VARCHAR},
+      </if>
+      <if test="meetmasterid != null">
+        meetMasterId = #{meetmasterid,jdbcType=VARCHAR},
+      </if>
+      <if test="meethouseid != null">
+        meetHouseId = #{meethouseid,jdbcType=VARCHAR},
+      </if>
+      <if test="meettime != null">
+        meetTime = #{meettime,jdbcType=VARCHAR},
+      </if>
+      <if test="meethouseadd != null">
+        meetHouseAdd = #{meethouseadd,jdbcType=VARCHAR},
+      </if>
+      <if test="meethousehold != null">
+        meetHouseHold = #{meethousehold,jdbcType=VARCHAR},
+      </if>
+      <if test="meethousetype != null">
+        meetHouseType = #{meethousetype,jdbcType=VARCHAR},
+      </if>
+      <if test="meethousemastername != null">
+        meetHouseMasterName = #{meethousemastername,jdbcType=VARCHAR},
+      </if>
+      <if test="meetstudentname != null">
+        meetStudentName = #{meetstudentname,jdbcType=VARCHAR},
+      </if>
+      <if test="meethouseprice != null">
+        meetHousePrice = #{meethouseprice,jdbcType=DOUBLE},
+      </if>
+      <if test="meethouseinfo != null">
+        meetHouseInfo = #{meethouseinfo,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where meetId = #{meetid,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.myy.pojo.Meeting">
+    update meeting
+    set meetStuentId = #{meetstuentid,jdbcType=VARCHAR},
+      meetMasterId = #{meetmasterid,jdbcType=VARCHAR},
+      meetHouseId = #{meethouseid,jdbcType=VARCHAR},
+      meetTime = #{meettime,jdbcType=VARCHAR},
+      meetHouseAdd = #{meethouseadd,jdbcType=VARCHAR},
+      meetHouseHold = #{meethousehold,jdbcType=VARCHAR},
+      meetHouseType = #{meethousetype,jdbcType=VARCHAR},
+      meetHouseMasterName = #{meethousemastername,jdbcType=VARCHAR},
+      meetStudentName = #{meetstudentname,jdbcType=VARCHAR},
+      meetHousePrice = #{meethouseprice,jdbcType=DOUBLE},
+      meetHouseInfo = #{meethouseinfo,jdbcType=VARCHAR}
+    where meetId = #{meetid,jdbcType=VARCHAR}
+  </update>
+</mapper>
